@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+{% block title %}
+  {{ job.title }} | CareerCanvas
+{% endblock %}
+{% block content %}
+  <section class="detail-hero">
+    <div class="container">
+      <a class="back-link" href="{% url 'all_jobs' %}">← Back to all roles</a><span class="tag">{{ job.sector }}</span><h1>{{ job.title }}</h1><div class="detail-meta">
+        <span>⌖ {{ job.location }}</span><span>{{ job.salary }}</span><span>Posted {{ job.post_date|date:'M d, Y' }}</span>
+      </div>
+    </div>
+  </section>
+  <section class="container detail-layout">
+    <article class="detail-copy">
+      <h2>About this opportunity</h2>{{ job.description|linebreaks }}
+    </article>
+    <aside class="apply-panel">
+      <p class="eyebrow">READY WHEN YOU ARE</p><h3>Interested in this role?</h3><p>Share your application and take the next step.</p>
+      {% if user.is_authenticated %}
+        {% if has_applied %}
+          <div class="applied-note">✓ Application submitted</div>
+        {% else %}
+          <form method="post" action="{% url 'apply_job' job.id %}">
+            {% csrf_token %}<button class="button" type="submit">Apply now →</button>
+          </form>
+        {% endif %}
+      {% else %}
+        <a class="button" href="{% url 'login' %}">Sign in to apply →</a><p class="small-note">
+          New here? <a href="{% url 'register' %}">Create an account</a>.
+        </p>
+      {% endif %}
+      {% if user.is_staff %}<p class="small-note"><a href="{% url 'update_job' job.id %}">Edit this posting</a></p>{% endif %}
+    </aside>
+  </section>
+{% endblock %}

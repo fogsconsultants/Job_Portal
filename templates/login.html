@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% block title %}
+  Sign In | CareerCanvas
+{% endblock %}
+{% block content %}
+  <section class="auth-page container">
+    <div class="auth-card">
+      <p class="eyebrow">WELCOME BACK</p><h1>Sign in to continue.</h1><p>Access job posting and applications in one place.</p>
+      <form method="post">
+        {% csrf_token %}
+        <div class="field">
+          <label for="username">Email address</label><input type="email" name="username" id="username" required />
+        </div>
+        <div class="field">
+          <label for="password">Password</label><input type="password" name="password" id="password" required />
+        </div><button class="button button-full" type="submit">Sign in →</button>
+      </form>
+      <p class="auth-switch">
+        New to CareerCanvas? <a href="{% url 'register' %}">Create an account</a>
+      </p>
+    </div>
+  </section>
+{% endblock %}
